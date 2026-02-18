@@ -9,6 +9,7 @@ const DEFAULT_CONFIG = {
   // Slot Machine Configuration
   numberOfReels: 3,
   spinDuration: 5,
+  spinSpeed: 0.5, // Speed of roller animation in seconds (lower = faster)
   staggerDelay: 1,
   allowDuplicates: false,
   

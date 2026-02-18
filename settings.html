@@ -55,6 +55,15 @@
           </div>
 
           <div class="form-group">
+            <label for="spinSpeed">
+              Roller Speed: 
+              <span class="range-value" id="speedValue">0.5s</span>
+            </label>
+            <input type="range" id="spinSpeed" min="0.1" max="2" step="0.1" value="0.5">
+            <p class="info-text">Speed of the roller animation (lower = faster scrolling)</p>
+          </div>
+
+          <div class="form-group">
             <label for="staggerDelay">
               Stagger Delay (between reels): 
               <span class="range-value" id="staggerValue">1s</span>

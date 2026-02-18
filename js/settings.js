@@ -22,6 +22,9 @@ class SettingsManager {
     document.getElementById('spinDuration').value = this.config.spinDuration;
     document.getElementById('durationValue').textContent = this.config.spinDuration + 's';
     
+    document.getElementById('spinSpeed').value = this.config.spinSpeed;
+    document.getElementById('speedValue').textContent = this.config.spinSpeed + 's';
+    
     document.getElementById('staggerDelay').value = this.config.staggerDelay;
     document.getElementById('staggerValue').textContent = this.config.staggerDelay + 's';
     
@@ -66,6 +69,12 @@ class SettingsManager {
     document.getElementById('spinDuration').addEventListener('input', (e) => {
       this.config.spinDuration = parseFloat(e.target.value);
       document.getElementById('durationValue').textContent = e.target.value + 's';
+      this.saveAndUpdate();
+    });
+
+    document.getElementById('spinSpeed').addEventListener('input', (e) => {
+      this.config.spinSpeed = parseFloat(e.target.value);
+      document.getElementById('speedValue').textContent = e.target.value + 's';
       this.saveAndUpdate();
     });
 

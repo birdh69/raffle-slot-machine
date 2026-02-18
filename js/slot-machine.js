@@ -91,6 +91,30 @@ class SlotMachine {
     }
   }
 
+  populateReelWithWinner(reelStrip, winner) {
+    reelStrip.innerHTML = '';
+    
+    // Create a repeating list of all entries
+    const repeats = 10;
+    const allItems = [];
+    
+    for (let i = 0; i < repeats; i++) {
+      // Shuffle entries for each repeat to create variety
+      const shuffled = [...this.entries].sort(() => Math.random() - 0.5);
+      shuffled.forEach(entry => {
+        const item = document.createElement('div');
+        item.className = 'reel-item';
+        item.textContent = entry;
+        reelStrip.appendChild(item);
+        allItems.push({ element: item, name: entry });
+      });
+    }
+    
+    // Store the winner and all items for positioning later
+    reelStrip.dataset.winner = winner;
+    reelStrip.dataset.itemCount = allItems.length;
+  }
+
   async spin() {
     if (this.isSpinning || this.entries.length === 0) return;
     
@@ -117,25 +141,38 @@ class SlotMachine {
     this.audioManager.initAudio();
     this.audioManager.playSpinSound();
     
-    // Start all reels spinning
+    // Pre-select winners before starting animation
     const availableEntries = [...this.entries];
+    const selectedWinners = [];
     
+    for (let i = 0; i < this.reels.length; i++) {
+      let winner;
+      if (this.config.allowDuplicates) {
+        winner = this.entries[Math.floor(Math.random() * this.entries.length)];
+      } else {
+        const availableIndex = Math.floor(Math.random() * availableEntries.length);
+        winner = availableEntries[availableIndex];
+        availableEntries.splice(availableIndex, 1);
+      }
+      selectedWinners.push(winner);
+    }
+    
+    // Start all reels spinning with the selected winners
     for (let i = 0; i < this.reels.length; i++) {
       const reel = this.reels[i];
       reel.isSpinning = true;
       
-      // Shuffle entries for visual variety
-      const shuffled = [...this.entries].sort(() => Math.random() - 0.5);
-      this.populateReel(reel.strip, shuffled);
+      // Populate reel with entries, ensuring the winner is included
+      this.populateReelWithWinner(reel.strip, selectedWinners[i]);
       
-      // Start spinning animation
-      reel.strip.style.animation = `spin ${this.config.spinDuration}s linear infinite`;
+      // Start spinning animation with configurable speed
+      reel.strip.style.animation = `spin ${this.config.spinSpeed}s linear infinite`;
     }
     
     // Stop reels one by one with stagger delay
     for (let i = 0; i < this.reels.length; i++) {
       await this.delay((this.config.spinDuration * 1000) + (i * this.config.staggerDelay * 1000));
-      await this.stopReel(i, availableEntries);
+      await this.stopReel(i, selectedWinners[i]);
     }
     
     // All reels stopped
@@ -149,31 +186,35 @@ class SlotMachine {
     resetBtn.style.display = 'block';
   }
 
-  async stopReel(index, availableEntries) {
+  async stopReel(index, winner) {
     const reel = this.reels[index];
-    
-    // Select winner
-    let winner;
-    if (this.config.allowDuplicates) {
-      winner = this.entries[Math.floor(Math.random() * this.entries.length)];
-    } else {
-      const availableIndex = Math.floor(Math.random() * availableEntries.length);
-      winner = availableEntries[availableIndex];
-      availableEntries.splice(availableIndex, 1);
-    }
     
     this.winners.push(winner);
     
-    // Stop spinning
+    // Stop spinning animation
     reel.strip.style.animation = 'none';
     reel.isSpinning = false;
     
-    // Position to show winner
-    reel.strip.innerHTML = '';
-    const winnerItem = document.createElement('div');
-    winnerItem.className = 'reel-item winner-item';
-    winnerItem.textContent = winner;
-    reel.strip.appendChild(winnerItem);
+    // Find all instances of the winner in the reel
+    const items = Array.from(reel.strip.children);
+    const winnerItems = items.filter(item => item.textContent === winner);
+    
+    if (winnerItems.length > 0) {
+      // Pick a random instance of the winner to display
+      const randomWinnerItem = winnerItems[Math.floor(Math.random() * winnerItems.length)];
+      const winnerIndex = items.indexOf(randomWinnerItem);
+      
+      // Calculate the position to center the winner in the reel
+      // Each item is 200px high (reel height)
+      const itemHeight = 200; // matches .reel height from CSS
+      const offset = winnerIndex * itemHeight;
+      
+      // Position the reel strip so the winner is visible in the center
+      reel.strip.style.transform = `translateY(-${offset}px)`;
+      
+      // Highlight the winner
+      randomWinnerItem.classList.add('winner-item');
+    }
     
     // Play stop sound
     this.audioManager.playReelStopSound();
