@@ -60,6 +60,7 @@
 │  🎰 Slot Machine Configuration     │                        │
 │  Number of Reels: [===●====] 3     │                        │
 │  Spin Duration:   [====●===] 5s    │                        │
+│  Roller Speed:    [===●====] 0.5s  │                        │
 │  Stagger Delay:   [==●=====] 1s    │                        │
 │  ☑ Allow Duplicate Winners         │                        │
 │                                     │                        │

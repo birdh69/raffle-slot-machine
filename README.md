@@ -133,6 +133,11 @@ cd raffle-slot-machine
 - How long reels spin before stopping
 - Longer = more suspense
 
+#### Roller Speed (0.1-2 seconds)
+- Speed of the rolling animation
+- Lower values = faster scrolling
+- Higher values = slower, easier to see names
+
 #### Stagger Delay (0.5-3 seconds)
 - Delay between each reel stopping
 - Creates dramatic reveal effect
