@@ -10,6 +10,10 @@ class SlotMachine {
     this.winners = [];
     this.reels = [];
     
+    // Constants for reel population and positioning
+    this.REEL_REPEAT_COUNT = 10; // Number of times to repeat entries for smooth scrolling
+    this.REEL_ITEM_HEIGHT = 200; // Height in pixels - matches .reel height from CSS
+    
     this.init();
   }
 
@@ -95,10 +99,10 @@ class SlotMachine {
     reelStrip.innerHTML = '';
     
     // Create a repeating list of all entries
-    const repeats = 10;
+    // We repeat multiple times to ensure smooth scrolling animation
     const allItems = [];
     
-    for (let i = 0; i < repeats; i++) {
+    for (let i = 0; i < this.REEL_REPEAT_COUNT; i++) {
       // Shuffle entries for each repeat to create variety
       const shuffled = [...this.entries].sort(() => Math.random() - 0.5);
       shuffled.forEach(entry => {
@@ -205,9 +209,8 @@ class SlotMachine {
       const winnerIndex = items.indexOf(randomWinnerItem);
       
       // Calculate the position to center the winner in the reel
-      // Each item is 200px high (reel height)
-      const itemHeight = 200; // matches .reel height from CSS
-      const offset = winnerIndex * itemHeight;
+      // Note: REEL_ITEM_HEIGHT must match .reel height in style.css
+      const offset = winnerIndex * this.REEL_ITEM_HEIGHT;
       
       // Position the reel strip so the winner is visible in the center
       reel.strip.style.transform = `translateY(-${offset}px)`;
