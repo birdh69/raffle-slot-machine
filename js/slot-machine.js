@@ -9,7 +9,6 @@ class SlotMachine {
     this.isSpinning = false;
     this.winners = [];
     this.reels = [];
-    this.selectedEntries = []; // Track selected entries to avoid duplicates
     
     this.init();
   }
