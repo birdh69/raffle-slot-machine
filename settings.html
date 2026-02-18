@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raffle Slot Machine - Settings</title>
+  <link rel="stylesheet" href="css/settings.css">
+</head>
+<body>
+  <div class="settings-container">
+    <header>
+      <h1>⚙️ Raffle Slot Machine Settings</h1>
+      <p class="subtitle">Configure your raffle slot machine for OBS Browser Source</p>
+    </header>
+
+    <div class="main-content">
+      <div class="settings-panel">
+        <!-- Raffle Entries Management -->
+        <section class="section">
+          <h2>📝 Raffle Entries</h2>
+          <div class="form-group">
+            <label for="entriesText">Participant Names (one per line):</label>
+            <textarea id="entriesText" placeholder="Enter participant names, one per line..."></textarea>
+            <div class="entry-count">
+              Total Entries: <strong id="entryCount">0</strong>
+            </div>
+          </div>
+          <div class="button-group">
+            <button id="saveEntries" class="btn btn-primary">💾 Save Entries</button>
+            <button id="importEntries" class="btn btn-secondary">📁 Import from File</button>
+            <button id="exportEntries" class="btn btn-secondary">💾 Export to File</button>
+            <button id="clearEntries" class="btn btn-danger">🗑️ Clear All</button>
+          </div>
+          <input type="file" id="fileInput" accept=".txt">
+        </section>
+
+        <!-- Slot Machine Configuration -->
+        <section class="section">
+          <h2>🎰 Slot Machine Configuration</h2>
+          
+          <div class="form-group">
+            <label for="numberOfReels">
+              Number of Reels (Winners): 
+              <span class="range-value" id="reelsValue">3</span>
+            </label>
+            <input type="range" id="numberOfReels" min="1" max="10" value="3">
+          </div>
+
+          <div class="form-group">
+            <label for="spinDuration">
+              Spin Duration: 
+              <span class="range-value" id="durationValue">5s</span>
+            </label>
+            <input type="range" id="spinDuration" min="2" max="15" step="0.5" value="5">
+          </div>
+
+          <div class="form-group">
+            <label for="staggerDelay">
+              Stagger Delay (between reels): 
+              <span class="range-value" id="staggerValue">1s</span>
+            </label>
+            <input type="range" id="staggerDelay" min="0.5" max="3" step="0.1" value="1">
+          </div>
+
+          <div class="form-group">
+            <div class="checkbox-group">
+              <input type="checkbox" id="allowDuplicates">
+              <label for="allowDuplicates">Allow Duplicate Winners</label>
+            </div>
+            <p class="info-text">When disabled, each reel will pick a unique winner</p>
+          </div>
+        </section>
+
+        <!-- Visual Customization -->
+        <section class="section">
+          <h2>🎨 Visual Customization</h2>
+          
+          <div class="form-group">
+            <div class="color-picker-group">
+              <label for="themeColor">Theme Color:</label>
+              <input type="color" id="themeColor" value="#ff3366">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="color-picker-group">
+              <label for="accentColor">Accent Color:</label>
+              <input type="color" id="accentColor" value="#ffd700">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="checkbox-group">
+              <input type="checkbox" id="useTransparentBg" checked>
+              <label for="useTransparentBg">Transparent Background (for OBS)</label>
+            </div>
+          </div>
+
+          <div class="form-group" id="bgColorGroup" style="display: none;">
+            <div class="color-picker-group">
+              <label for="backgroundColor">Background Color:</label>
+              <input type="color" id="backgroundColor" value="#000000">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="fontSize">
+              Font Size: 
+              <span class="range-value" id="fontSizeValue">48px</span>
+            </label>
+            <input type="range" id="fontSize" min="24" max="96" value="48">
+          </div>
+
+          <div class="form-group">
+            <label for="fontFamily">Font Family:</label>
+            <select id="fontFamily">
+              <option value="Arial, sans-serif">Arial</option>
+              <option value="'Courier New', monospace">Courier New</option>
+              <option value="Georgia, serif">Georgia</option>
+              <option value="'Times New Roman', serif">Times New Roman</option>
+              <option value="Verdana, sans-serif">Verdana</option>
+              <option value="'Comic Sans MS', cursive">Comic Sans MS</option>
+              <option value="Impact, fantasy">Impact</option>
+              <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <div class="checkbox-group">
+              <input type="checkbox" id="showCelebration" checked>
+              <label for="showCelebration">Show Celebration Effects (Confetti)</label>
+            </div>
+          </div>
+        </section>
+
+        <!-- Audio Settings -->
+        <section class="section">
+          <h2>🔊 Audio Settings</h2>
+          
+          <div class="form-group">
+            <label for="masterVolume">
+              Master Volume: 
+              <span class="range-value" id="volumeValue">70%</span>
+            </label>
+            <input type="range" id="masterVolume" min="0" max="100" value="70">
+          </div>
+
+          <div class="form-group">
+            <div class="checkbox-group">
+              <input type="checkbox" id="muteAll">
+              <label for="muteAll">Mute All Sounds</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="checkbox-group">
+              <input type="checkbox" id="enableSpinSounds" checked>
+              <label for="enableSpinSounds">Enable Spin Sounds</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="checkbox-group">
+              <input type="checkbox" id="enableWinnerSounds" checked>
+              <label for="enableWinnerSounds">Enable Winner Celebration Sounds</label>
+            </div>
+          </div>
+        </section>
+
+        <!-- Reset -->
+        <section class="section">
+          <h2>🔄 Reset</h2>
+          <button id="resetDefaults" class="btn btn-danger">Reset to Default Settings</button>
+          <p class="info-text">This will reset all settings to defaults (entries will not be affected)</p>
+        </section>
+      </div>
+
+      <!-- Preview Panel -->
+      <div class="preview-panel">
+        <div id="preview">
+          <h3>Live Preview</h3>
+          <div class="preview-reel">
+            <div class="preview-text">WINNER</div>
+          </div>
+          <p class="preview-description">
+            This preview shows your current theme colors and font family.
+            The actual slot machine will appear in index.html.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="notification"></div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/settings.js"></script>
+</body>
+</html>
